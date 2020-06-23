@@ -22,7 +22,7 @@ type conf struct {
 }
 
 func readConf() *list.List {
-	file, err := os.Open("birthdaylist")
+	file, err := os.Open("conf")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,26 +58,31 @@ const (
 	// 端口
 	smtpMailPort = "25"
 	// 发送邮件用户账号
-	smtpMailUser = "xxxxx@126.com"
+	smtpMailUser = "xxx@126.com"
 	// 授权密码
-	smtpMailPwd = "xxxxxxxxxx"
+	smtpMailPwd = "xxx"
 	// TO
 	smtpMailTo = "xxx@outlook.com"
 )
 
-func senMail(cf conf) {
-	auth := smtp.PlainAuth("", smtpMailUser, smtpMailPwd, smtpMailHost)
-	to := []string{smtpMailTo}
+func msg(cf conf) string {
 	var build strings.Builder
 	build.WriteString(cf.Name)
-	build.WriteString("'s birthday is ")
+	build.WriteString("的生日在近期[")
 	build.WriteString(strconv.Itoa(cf.Month))
 	build.WriteString("-")
 	build.WriteString(strconv.Itoa(cf.Day))
+	build.WriteString("]")
+	return build.String()
+}
+
+func senMail(cf conf) {
+	auth := smtp.PlainAuth("", smtpMailUser, smtpMailPwd, smtpMailHost)
+	to := []string{smtpMailTo}
 	msg := []byte("To: " + smtpMailTo + "\r\n" +
-		"Subject: Birthday reminder!\r\n" +
+		"Subject: Birthday Reminder!\r\n" +
 		"\r\n" +
-		build.String() + "\r\n")
+		msg(cf) + "\r\n")
 	err := smtp.SendMail(fmt.Sprintf("%s:%s", smtpMailHost, smtpMailPort), auth, smtpMailUser, to, msg)
 	if err != nil {
 		log.Fatal(err)
@@ -103,10 +108,10 @@ func main() {
 				solarDay = time.Date(now.Year(), time.Month(cf.Month), cf.Day, 12, 0, 0, 0, timeLocation)
 			}
 			duration := solarDay.Sub(now)
-			fmt.Printf("now: %v, birthDay: %v\n", now.Format("2006-01-02 15:04:05"), solarDay.Format("2006-01-02 15:04:05"))
-			if time.Hour*24 < duration && duration < time.Hour*2*24 {
+			// fmt.Printf("now: %v, birthDay: %v\n", now.Format("2006-01-02 15:04:05"), solarDay.Format("2006-01-02 15:04:05"))
+			if 0 < duration && duration < time.Hour*2*24 {
 				senMail(cf)
-				// fmt.Printf("%+v\n", cf)
+				fmt.Printf("time:%v,msg:%v\n", now.Format("2006-01-02 15:04:05"), msg(cf))
 			}
 		}
 		time.Sleep(time.Hour * 24)
