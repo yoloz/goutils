@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/yoloz/gos/birthdayreminder/convert"
+	"birthdayreminder/convert"
 )
 
 type conf struct {
