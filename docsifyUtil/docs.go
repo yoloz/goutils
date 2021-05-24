@@ -8,20 +8,36 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
+	"sync"
 )
 
-var subList *list.List
+// var subList *list.List
 
-func init() {
-	subList = list.New()
-}
+var numbers int = runtime.NumCPU()
+
+// func init() {
+// 	subList = list.New()
+// }
 
 func main() {
 
 	var docsDir string
 	fmt.Printf("Please enter docsify directory: ")
 	fmt.Scanln(&docsDir)
+
+	if strings.Compare(docsDir, "") == 0 {
+		dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+		if err != nil {
+			log.Fatal(err)
+		}
+		docsDir = dir
+		fmt.Println("auto config==>" + docsDir)
+	}
+
+	wp := NewPool(numbers-1, 50).Start()
+	wg := sync.WaitGroup{}
 
 	fd, err := os.ReadDir(docsDir)
 	if err != nil {
@@ -60,7 +76,11 @@ func main() {
 				str.WriteString(")\n")
 				flist.PushBack(str.String())
 			} else if file.Type().IsDir() {
-				go scanSubDir(filepath.Join(catalogPath, file.Name()))
+				wg.Add(1)
+				wp.PushTaskFunc(func(args ...interface{}) {
+					defer wg.Done()
+					scanSubDir(args[0].(string))
+				}, filepath.Join(catalogPath, file.Name()))
 				str.WriteString("  - [")
 				str.WriteString(strings.TrimSuffix(file.Name(), ".md"))
 				str.WriteString("](/")
@@ -83,38 +103,42 @@ func main() {
 		if hasDir {
 			flist.PushFront("- 文件夹\n")
 		}
-
 		//生成文件
-		siderbar, err := os.Create(filepath.Join(catalogPath, "_sidebar.md"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer siderbar.Close()
+		writeFile(catalogPath, flist)
+	}
+	wg.Wait()
+}
 
-		readme, err := os.Create(filepath.Join(catalogPath, "README.md"))
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer readme.Close()
+func writeFile(path string, list *list.List) {
+	//生成文件
+	siderbar, err := os.Create(filepath.Join(path, "_sidebar.md"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer siderbar.Close()
 
-		for e := flist.Front(); e != nil; e = e.Next() {
-			line := e.Value.(string)
-			siderbar.WriteString(line)
-			readme.WriteString(line)
-		}
+	readme, err := os.Create(filepath.Join(path, "README.md"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer readme.Close()
 
+	for e := list.Front(); e != nil; e = e.Next() {
+		line := e.Value.(string)
+		siderbar.WriteString(line)
+		readme.WriteString(line)
 	}
 }
 
 //遍历二级目录
 func scanSubDir(dirPath string) {
-
 	files, err := os.ReadDir(dirPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	subList.Init()
+	subList := list.New()
+	// subList.Init()
 	subList.PushBack("- 文件\n")
 	var str strings.Builder
 
@@ -136,21 +160,5 @@ func scanSubDir(dirPath string) {
 	}
 
 	//生成文件
-	siderbar, err := os.Create(filepath.Join(dirPath, "_sidebar.md"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer siderbar.Close()
-
-	readme, err := os.Create(filepath.Join(dirPath, "README.md"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer readme.Close()
-
-	for e := subList.Front(); e != nil; e = e.Next() {
-		line := e.Value.(string)
-		siderbar.WriteString(line)
-		readme.WriteString(line)
-	}
+	writeFile(dirPath, subList)
 }
