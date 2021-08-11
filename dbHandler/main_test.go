@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"testing"
+	// mysql "github.com/yoloz/gos/tree/master/dbHandler/dialect"
 )
 
 func TestMysql(t *testing.T) {
