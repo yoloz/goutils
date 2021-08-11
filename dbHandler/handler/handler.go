@@ -1,4 +1,4 @@
-package dialect
+package handler
 
 import (
 	"math/rand"
