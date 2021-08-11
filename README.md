@@ -29,3 +29,7 @@ golang learning，tool,etc.
 ## httpClient
 
 oauth2凭证式验证
+
+## database
+
+关系库插入测试数据
