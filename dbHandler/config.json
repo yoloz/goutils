@@ -2,7 +2,10 @@
     "dbType": 0,
     "userName": "test",
     "password": "dcap123",
+    "dsn": "",
     "host": "192.168.1.116",
     "port": 3306,
-    "dbName": "test"
+    "dbName": "test",
+    "perBatch": 500,
+    "totalNum": 1000000
 }
