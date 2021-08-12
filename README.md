@@ -32,4 +32,5 @@ oauth2凭证式验证
 
 ## database
 
-关系库插入测试数据
+关系库插入测试数据,mysql,pgsql,mssql,oracle,db2
+db2创建表和插入数据会卡住,无法使用
