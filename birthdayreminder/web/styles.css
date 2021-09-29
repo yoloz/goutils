@@ -1,0 +1,37 @@
+body{margin: 0,20px;font-family:微软雅黑;font-size:14px;}
+
+a{text-decoration:none;}
+
+.layout{margin:10px auto}
+
+.menu{margin-left:50%;}
+
+.label{display:block;margin:0 0 5px}
+
+.inputbox{border:1px solid #ddd;border-radius:3px;box-sizing:border-box;display:block;margin:0 0 10px;padding:10px 15px;}
+
+.button{background:#eee;border:1px solid #ddd;border-radius:3px;color:#333;display:inline-block;margin:0 0 10px;padding:10px 15px;text-decoration:none}
+
+.button:hover{background:#e8e8e8}
+
+.birthday-list-headline{font-size:26px;font-weight:bold;border-bottom:1px dashed #ccc;color:#255e95}
+
+.birthday-list{margin-top:13px}.birthday-list td{background-color:#fff;height:25px;line-height:150%;text-align:center}
+
+.btbg{background:#e9faff!important}
+
+.titfont{font-size:16px;font-weight:bold;color:#255e95;background-color:#e9faff}
+
+.bfont{font-size:16px;/*font-weight:bold;*/}
+
+.txtbg404{ width:499px; height:169px; margin:10px auto 0 auto; background:url(txtbg404.png) no-repeat;}
+ 
+.txtbg404 .txtbox{ width:390px; position:relative; top:30px; left:60px;color:#eee; font-size:13px;}
+ 
+.txtbg404 .txtbox p {margin:5px 0; line-height:18px;}
+ 
+.txtbg404 .txtbox .paddingbox { padding-top:15px;}
+ 
+.txtbg404 .txtbox p a { color:#eee; text-decoration:none;}
+ 
+.txtbg404 .txtbox p a:hover { color:#FC9D1D; text-decoration:underline;}
