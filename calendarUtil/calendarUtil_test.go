@@ -5,6 +5,7 @@ import (
 	"log"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestIsLeapYear(t *testing.T) {
@@ -17,9 +18,16 @@ func TestGetMonthDay(t *testing.T) {
 }
 
 func TestGetWeekday(t *testing.T) {
-	s, err := GetWeekday(2021, 10, 13)
-	if err != nil {
+	var (
+		week time.Weekday
+		err  error
+	)
+	if week, err = GetWeekday(2021, 10, 1); err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(strings.Compare("星期三", Weekday_zh(s)) == 0)
+	fmt.Println(strings.Compare("星期五", Weekday_zh(week)) == 0)
+	if week, err = GetWeekday(2021, 10, 13); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(strings.Compare("星期三", Weekday_zh(week)) == 0)
 }
