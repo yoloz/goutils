@@ -21,5 +21,5 @@ func TestGetWeekday(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(strings.Compare("星期三", s) == 0)
+	fmt.Println(strings.Compare("星期三", Weekday_zh(s)) == 0)
 }
