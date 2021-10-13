@@ -30,26 +30,30 @@ func GetMonthDay(year int, month int) (int, error) {
 }
 
 //获取星期几数据
-func GetWeekday(year int, month int, day int) (string, error) {
+func GetWeekday(year int, month int, day int) (time.Weekday, error) {
 	t, err := time.Parse("2006-01-02", fmt.Sprintf("%d-%d-%d", year, month, day))
 	if err != nil {
-		return "", err
+		return -1, err
 	}
-	week := t.Weekday()
+	return t.Weekday(), nil
+}
+
+//中文星期
+func Weekday_zh(week time.Weekday) string {
 	switch week {
 	case 0:
-		return "星期日", nil
+		return "星期日"
 	case 1:
-		return "星期一", nil
+		return "星期一"
 	case 2:
-		return "星期二", nil
+		return "星期二"
 	case 3:
-		return "星期三", nil
+		return "星期三"
 	case 4:
-		return "星期四", nil
+		return "星期四"
 	case 5:
-		return "星期五", nil
+		return "星期五"
 	default: //6
-		return "星期六", nil
+		return "星期六"
 	}
 }
