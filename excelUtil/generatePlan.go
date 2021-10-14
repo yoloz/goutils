@@ -148,7 +148,7 @@ func fillWeekendStyle(file *excelize.File) (int, error) {
 	}`)
 }
 
-func GeneratePlan(year int, months []int) {
+func GeneratePlan(year int, months []int, filePath string) {
 	var (
 		days      int          //当月天数
 		err       error        //错误
@@ -277,7 +277,7 @@ func GeneratePlan(year int, months []int) {
 		f.MergeCell(sheetName, mstartcol+"2", mendcol+"2")
 	}
 
-	if err = f.SaveAs("plan.xlsx"); err != nil {
+	if err = f.SaveAs(filePath); err != nil {
 		log.Fatal(err)
 	}
 }
