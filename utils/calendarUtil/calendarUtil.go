@@ -31,11 +31,18 @@ func GetMonthDay(year int, month int) (int, error) {
 
 //获取星期几数据
 func GetWeekday(year int, month int, day int) (time.Weekday, error) {
-	fs := "2006-01-02"
-	if day < 10 {
-		fs = "2006-01-2"
+	df := "2006-"
+	if month < 10 {
+		df += "1-"
+	} else {
+		df += "01-"
 	}
-	t, err := time.Parse(fs, fmt.Sprintf("%d-%d-%d", year, month, day))
+	if day < 10 {
+		df += "2"
+	} else {
+		df += "02"
+	}
+	t, err := time.Parse(df, fmt.Sprintf("%d-%d-%d", year, month, day))
 	if err != nil {
 		return -1, err
 	}
