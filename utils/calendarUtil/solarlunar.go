@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -44,10 +43,9 @@ var LUNAR_INFO = []int{
 	0x0d520}
 
 // LunarToSolar 阴历转阳历
-func LunarToSolar(date string, leapMonthFlag bool) string {
-	date, offset := dealWithSpecialFebruaryDate(date)
-	loc, _ := time.LoadLocation("Local")
-	lunarTime, err := time.ParseInLocation(DATELAYOUT, date, loc)
+func LunarToSolar(year, month, day int, leapMonthFlag bool) string {
+	day, offset := dealWithSpecialFebruaryDate(year, month, day)
+	lunarTime, err := ParseTime(year, month, day)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -106,7 +104,7 @@ func LunarToSolar(date string, leapMonthFlag bool) string {
 		}
 	}
 
-	myDate, err := time.ParseInLocation(DATELAYOUT, STARTDATESTR, loc)
+	myDate, err := time.Parse(DATELAYOUT, STARTDATESTR)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -115,31 +113,29 @@ func LunarToSolar(date string, leapMonthFlag bool) string {
 	return myDate.Format(DATELAYOUT)
 }
 
-// dealWithSpecialFebruaryDate 2月日期处理
-func dealWithSpecialFebruaryDate(date string) (string, int) {
-	items := strings.Split(date, "-")
-	year, _ := strconv.Atoi(items[0])
-	if items[1] == "02" {
+// dealWithSpecialFebruaryDate 2月日期处理,返回处理后的天数
+func dealWithSpecialFebruaryDate(year, month, day int) (int, int) {
+	if month == 2 {
 		if IsLeapYear(year) {
-			if items[2] == "30" {
-				return items[0] + "-" + items[1] + "-29", 1
+			if day == 30 {
+				return 29, 1
 			}
 		} else {
-			if items[2] == "30" {
-				return items[0] + "-" + items[1] + "-28", 2
+			if day == 30 {
+				return 28, 2
 			}
-			if items[2] == "29" {
-				return items[0] + "-" + items[1] + "-28", 1
+			if day == 29 {
+				return 28, 1
 			}
 		}
 	}
-	return date, 0
+	return day, 0
 }
 
 // SolarToLuanr 阳历转阴历.
 // bool 月份是否闰月
-func SolarToLuanr(date string) (string, bool) {
-	lunarYear, lunarMonth, lunarDay, leapMonth, leapMonthFlag := calculateLunar(date)
+func SolarToLuanr(year, month, day int) (string, bool) {
+	lunarYear, lunarMonth, lunarDay, leapMonth, leapMonthFlag := calculateLunar(year, month, day)
 	result := strconv.Itoa(lunarYear) + "-"
 	if lunarMonth < 10 {
 		result += "0" + strconv.Itoa(lunarMonth) + "-"
@@ -160,18 +156,17 @@ func SolarToLuanr(date string) (string, bool) {
 }
 
 //  calculateLunar 计算当前日期的阴历
-func calculateLunar(date string) (lunarYear, lunarMonth, lunarDay, leapMonth int, leapMonthFlag bool) {
-	loc, _ := time.LoadLocation("Local")
+func calculateLunar(year, month, day int) (lunarYear, lunarMonth, lunarDay, leapMonth int, leapMonthFlag bool) {
 	i := 0
 	temp := 0
 	leapMonthFlag = false
 	isLeapYear := false
 
-	myDate, err := time.ParseInLocation(DATELAYOUT, date, loc)
+	myDate, err := ParseTime(year, month, day)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	startDate, err := time.ParseInLocation(DATELAYOUT, STARTDATESTR, loc)
+	startDate, err := time.Parse(DATELAYOUT, STARTDATESTR)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

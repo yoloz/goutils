@@ -5,12 +5,12 @@ import (
 	"time"
 )
 
-//判断是否为闰年
+// IsLeapYear 判断是否为闰年
 func IsLeapYear(year int) bool {
 	return year%400 == 0 || (year%4 == 0 && year%100 != 0)
 }
 
-//获取哪年哪月总天数
+// GetMonthDay 获取哪年哪月总天数
 func GetMonthDay(year int, month int) (int, error) {
 	switch month {
 	case 1, 3, 5, 7, 8, 10, 12:
@@ -29,8 +29,17 @@ func GetMonthDay(year int, month int) (int, error) {
 	}
 }
 
-//获取星期几数据
+// GetWeekday 获取星期几数据
 func GetWeekday(year int, month int, day int) (time.Weekday, error) {
+	t, err := ParseTime(year, month, day)
+	if err != nil {
+		return -1, err
+	}
+	return t.Weekday(), nil
+}
+
+// ParseTime 年月日格式化
+func ParseTime(year, month, day int) (time.Time, error) {
 	df := "2006-"
 	if month < 10 {
 		df += "1-"
@@ -42,14 +51,10 @@ func GetWeekday(year int, month int, day int) (time.Weekday, error) {
 	} else {
 		df += "02"
 	}
-	t, err := time.Parse(df, fmt.Sprintf("%d-%d-%d", year, month, day))
-	if err != nil {
-		return -1, err
-	}
-	return t.Weekday(), nil
+	return time.Parse(df, fmt.Sprintf("%d-%d-%d", year, month, day))
 }
 
-//中文星期
+// Weekday_zh 输出中文星期
 func Weekday_zh(week time.Weekday) string {
 	switch week {
 	case 0:

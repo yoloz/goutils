@@ -6,11 +6,9 @@ import (
 )
 
 func TestSolarToLuanr(t *testing.T) {
-	solarDate := "2021-10-15"
-	fmt.Println(SolarToLuanr(solarDate))
+	fmt.Println(SolarToLuanr(2021, 10, 15))
 }
 
 func TestLunarToSolar(t *testing.T) {
-	lunarDate := "2021-09-10"
-	fmt.Println(LunarToSolar(lunarDate, false))
+	fmt.Println(LunarToSolar(2021, 9, 10, false))
 }

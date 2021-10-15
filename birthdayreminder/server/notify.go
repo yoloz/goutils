@@ -4,6 +4,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/yoloz/gos/utils/calendarUtil"
 )
 
 func EmailNotify() {
@@ -27,7 +29,7 @@ func notifyEmail(birthday Birthday, now time.Time, location *time.Location) {
 	month, _ := strconv.Atoi(ts[0])
 	day, _ := strconv.Atoi(ts[1])
 	if birthday.TimeType == 0 {
-		solar := LunarToSolar(now.Year(), month, day, false)
+		solar := calendarUtil.LunarToSolar(now.Year(), month, day, false)
 		birthday.TimeText = strconv.Itoa(solar[1]) + "-" + strconv.Itoa(solar[2])
 		solarDay = time.Date(solar[0], time.Month(solar[1]), solar[2], 12, 0, 0, 0, location)
 	} else {
