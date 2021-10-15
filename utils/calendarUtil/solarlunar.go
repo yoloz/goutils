@@ -103,8 +103,8 @@ func LunarToSolar(year, month, day int, leapMonthFlag bool) string {
 			offset += lunarDay
 		}
 	}
-
-	myDate, err := time.Parse(DATELAYOUT, STARTDATESTR)
+	timeLocation, _ := time.LoadLocation("Asia/Shanghai")
+	myDate, err := time.ParseInLocation(DATELAYOUT, STARTDATESTR, timeLocation)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -166,7 +166,8 @@ func calculateLunar(year, month, day int) (lunarYear, lunarMonth, lunarDay, leap
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	startDate, err := time.Parse(DATELAYOUT, STARTDATESTR)
+	timeLocation, _ := time.LoadLocation("Asia/Shanghai")
+	startDate, err := time.ParseInLocation(DATELAYOUT, STARTDATESTR, timeLocation)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

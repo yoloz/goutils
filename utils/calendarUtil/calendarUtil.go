@@ -51,7 +51,8 @@ func ParseTime(year, month, day int) (time.Time, error) {
 	} else {
 		df += "02"
 	}
-	return time.Parse(df, fmt.Sprintf("%d-%d-%d", year, month, day))
+	timeLocation, _ := time.LoadLocation("Asia/Shanghai")
+	return time.ParseInLocation(df, fmt.Sprintf("%d-%d-%d", year, month, day), timeLocation)
 }
 
 // Weekday_zh 输出中文星期
