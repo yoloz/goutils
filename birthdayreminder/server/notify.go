@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -26,14 +27,24 @@ func EmailNotify() {
 func notifyEmail(birthday Birthday, now time.Time, location *time.Location) {
 	var solarDay time.Time
 	ts := strings.Split(birthday.TimeText, "-")
-	month, _ := strconv.Atoi(ts[0])
-	day, _ := strconv.Atoi(ts[1])
+	month, err := strconv.Atoi(ts[0])
+	if err != nil {
+		log.Fatalf("month[%s] invalid %v\n", ts[0], err)
+	}
+	day, err := strconv.Atoi(ts[1])
+	if err != nil {
+		log.Fatalf("day[%s] invalid %v\n", ts[1], err)
+	}
 	if birthday.TimeType == 0 {
-		solar := calendarUtil.LunarToSolar(now.Year(), month, day, false)
-		birthday.TimeText = strconv.Itoa(solar[1]) + "-" + strconv.Itoa(solar[2])
-		solarDay = time.Date(solar[0], time.Month(solar[1]), solar[2], 12, 0, 0, 0, location)
+		solarDate := calendarUtil.LunarToSolar(now.Year(), month, day, false)
+		birthday.TimeText = solarDate[4:]
+		if solarDay, err = time.ParseInLocation("2006-01-02", solarDate, location); err != nil {
+			log.Fatalf("solarDay[%s] invalid %v\n", solarDay, err)
+		}
 	} else {
-		solarDay = time.Date(now.Year(), time.Month(month), day, 12, 0, 0, 0, location)
+		if solarDay, err = time.ParseInLocation("2006-01-02", strconv.Itoa(now.Year())+"-"+birthday.TimeText, location); err != nil {
+			log.Fatalf("solarDay[%s] invalid %v\n", solarDay, err)
+		}
 	}
 	duration := solarDay.Sub(now)
 	// fmt.Printf("now: %v, birthDay: %v\n", now.Format("2006-01-02 15:04:05"), solarDay.Format("2006-01-02 15:04:05"))

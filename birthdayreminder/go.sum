@@ -9,8 +9,8 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/xuri/efp v0.0.0-20210322160811-ab561f5b45e3/go.mod h1:ybY/Jr0T0GTCnYjKqmdwxyxn2BQf2RcQIIvex5QldPI=
 github.com/xuri/excelize/v2 v2.4.1/go.mod h1:rSu0C3papjzxQA3sdK8cU544TebhrPUoTOaGPIh0Q1A=
-github.com/yoloz/gos/utils v0.0.0-20211015031135-b0d4aadb1360 h1:CxpjuFFxTSVBpzVIo2tl49Xn8A7rzs6GNHUqpkLSFjI=
-github.com/yoloz/gos/utils v0.0.0-20211015031135-b0d4aadb1360/go.mod h1:lt4/aZUWqVZUdrVnxpp1DOow299V0eXE928lxNW2ZK0=
+github.com/yoloz/gos/utils v0.0.0-20211015034405-a254f4de8bab h1:Fl1YNznF1RJTQQxEVqkHpzGg9SAn2FfsIncdFCKY1ms=
+github.com/yoloz/gos/utils v0.0.0-20211015034405-a254f4de8bab/go.mod h1:lt4/aZUWqVZUdrVnxpp1DOow299V0eXE928lxNW2ZK0=
 golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97/go.mod h1:GvvjBRRGRdwPK5ydBHafDWAxML/pGHZbMvKqRZ5+Abc=
 golang.org/x/image v0.0.0-20210220032944-ac19c3e999fb/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
 golang.org/x/net v0.0.0-20210226172049-e18ecbb05110/go.mod h1:m0MpNAwzfU5UDzcl9v0D8zg8gWTRqZa9RBIspLL5mdg=
