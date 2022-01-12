@@ -1,5 +1,10 @@
 package excelUtil
 
+//excel坐标：
+//横向A、B、C、D...;
+//纵向1、2、3、4、5...;
+//具体单元格A1、B5...;
+
 import (
 	"fmt"
 	"log"
@@ -219,16 +224,28 @@ func GeneratePlan(year int, months []int, filePath string) {
 		if startWeek, err = calendarUtil.GetWeekday(year, month, 1); err != nil {
 			log.Fatal(err)
 		}
-
+		//month start col
 		if mstartcol, err = excelize.ColumnNumberToName(colIndex); err != nil {
 			log.Fatal(err)
 		}
 
 		weekIndex = 1
 		for day := 1; day <= days; day++ {
+			//week:星期几(0,1,2,3,4,5,6)
 			week := (int(startWeek) + day - 1) % 7
+			//更新周的起始位置
+			if week == 1 || day == 1 {
+				//wstartcol:week start col
+				if wstartcol, err = excelize.ColumnNumberToName(colIndex); err != nil {
+					log.Fatal(err)
+				}
+				if day == 1 {
+					f.SetCellStyle(sheetName, wstartcol+"6", wstartcol+"30", leftBorder)
+				}
+			}
 
 			if week == 0 || day == days {
+				//wendcol:week end col
 				if wendcol, err = excelize.ColumnNumberToName(colIndex); err != nil {
 					log.Fatal(err)
 				}
@@ -250,14 +267,7 @@ func GeneratePlan(year int, months []int, filePath string) {
 				weekIndex++
 			}
 
-			if week == 1 || day == 1 {
-				if wstartcol, err = excelize.ColumnNumberToName(colIndex); err != nil {
-					log.Fatal(err)
-				}
-
-				f.SetCellStyle(sheetName, wstartcol+"6", wstartcol+"30", leftBorder)
-			}
-
+			//weekday: week的汉化
 			weekday := string([]rune(calendarUtil.Weekday_zh(time.Weekday(week)))[2:])
 			if colName, err = excelize.ColumnNumberToName(colIndex); err != nil {
 				log.Fatal(err)
@@ -269,7 +279,7 @@ func GeneratePlan(year int, months []int, filePath string) {
 			colIndex++
 		}
 
-		//不包含最后一列，否则最后三个月合并成一个月
+		//mendcol:month end col,不包含最后一列,否则重复单元格合并了
 		if mendcol, err = excelize.ColumnNumberToName(colIndex - 1); err != nil {
 			log.Fatal(err)
 		}
