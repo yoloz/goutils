@@ -4,5 +4,5 @@ go 1.16
 
 require (
 	github.com/mitchellh/go-homedir v1.1.0
-	github.com/xuri/excelize/v2 v2.4.1
+	github.com/xuri/excelize/v2 v2.6.0
 )

@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/xuri/excelize/v2"
-	"github.com/yoloz/gos/utils/calendarUtil"
+	"github.com/yoloz/gos/utils/calendarutil"
 )
 
 func h1Style(file *excelize.File) (int, error) {
@@ -216,11 +216,11 @@ func GeneratePlan(year int, months []int, filePath string) {
 
 	for _, month := range months {
 
-		if days, err = calendarUtil.GetMonthDay(year, month); err != nil {
+		if days, err = calendarutil.GetMonthDay(year, month); err != nil {
 			log.Fatal(err)
 		}
 
-		if startWeek, err = calendarUtil.GetWeekday(year, month, 1); err != nil {
+		if startWeek, err = calendarutil.GetWeekday(year, month, 1); err != nil {
 			log.Fatal(err)
 		}
 		//month start col
@@ -267,7 +267,7 @@ func GeneratePlan(year int, months []int, filePath string) {
 			}
 
 			//weekday: week的汉化
-			weekday := string([]rune(calendarUtil.Weekday_zh(time.Weekday(week)))[2:])
+			weekday := string([]rune(calendarutil.Weekday_zh(time.Weekday(week)))[2:])
 			if colName, err = excelize.ColumnNumberToName(colIndex); err != nil {
 				log.Fatal(err)
 			}
