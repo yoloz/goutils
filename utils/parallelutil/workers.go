@@ -1,5 +1,18 @@
 package parallelutil
 
+/**
+*
+wp := util.NewPool(worker_num, size).Start()
+wg := sync.WaitGroup{}
+for xxxx {   循环列表
+	wg.Add(1)
+	wp.PushTaskFunc(func(args ...interface{}) {
+		defer wg.Done()
+		compare(args[0].(fs.File), args[1].(int), args[2].(*sql.DB))  //具体任务函数
+	}, f, conf.SrcId, db)
+}
+wg.Wait()
+**/
 import (
 	"context"
 	"sync"
