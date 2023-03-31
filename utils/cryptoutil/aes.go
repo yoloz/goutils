@@ -20,11 +20,11 @@ type AES struct{}
 
 // =======================================CBC========================================
 
-func (aes_ AES) EncryptCBC(key string, text string) (cypher string, err error) {
-	return aes_.EncryptCBCImpl([]byte(key), []byte(key), []byte(text))
+func (aes_ AES) AESEncryptCBC(key string, text string) (cypher string, err error) {
+	return aes_.AESEncryptCBCImpl([]byte(key), []byte(key), []byte(text))
 }
 
-func (aes_ AES) EncryptCBCImpl(pk []byte, iv []byte, ciphertext []byte) (cypher string, err error) {
+func (aes_ AES) AESEncryptCBCImpl(pk []byte, iv []byte, ciphertext []byte) (cypher string, err error) {
 	block, err := aes.NewCipher(pk)
 	if err != nil {
 		return "", err
@@ -37,11 +37,11 @@ func (aes_ AES) EncryptCBCImpl(pk []byte, iv []byte, ciphertext []byte) (cypher 
 	return hex.EncodeToString(crypted), nil
 }
 
-func (aes_ AES) DecryptCBC(key string, cypher string) (text string, err error) {
-	return aes_.DecryptCBCImpl([]byte(key), []byte(key), cypher)
+func (aes_ AES) AESDecryptCBC(key string, cypher string) (text string, err error) {
+	return aes_.AESDecryptCBCImpl([]byte(key), []byte(key), cypher)
 }
 
-func (aes_ AES) DecryptCBCImpl(pk []byte, iv []byte, cypher string) (text string, err error) {
+func (aes_ AES) AESDecryptCBCImpl(pk []byte, iv []byte, cypher string) (text string, err error) {
 	decode_data, err := hex.DecodeString(cypher)
 	if err != nil {
 		return "", err
@@ -76,15 +76,15 @@ func pkcs7unpad(origData []byte) []byte {
 
 // ================================ECB===============================
 
-func (aes_ AES) EncryptECB(key string, text string) (cypher string, err error) {
-	bs, err := aes_.EncryptECBImpl([]byte(key), []byte(text))
+func (aes_ AES) AESEncryptECB(key string, text string) (cypher string, err error) {
+	bs, err := aes_.AESEncryptECBImpl([]byte(key), []byte(text))
 	if err != nil {
 		return "", err
 	}
 	return string(bs), nil
 }
 
-func (aes_ AES) EncryptECBImpl(key []byte, cyphertext []byte) (encrypted []byte, err error) {
+func (aes_ AES) AESEncryptECBImpl(key []byte, cyphertext []byte) (encrypted []byte, err error) {
 	cipher, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -105,15 +105,15 @@ func (aes_ AES) EncryptECBImpl(key []byte, cyphertext []byte) (encrypted []byte,
 	return encrypted, nil
 }
 
-func (aes_ AES) DecryptECB(key string, cypher string) (text string, err error) {
-	bs, err := aes_.DecryptECBImpl([]byte(key), []byte(cypher))
+func (aes_ AES) AESDecryptECB(key string, cypher string) (text string, err error) {
+	bs, err := aes_.AESDecryptECBImpl([]byte(key), []byte(cypher))
 	if err != nil {
 		return "", err
 	}
 	return string(bs), nil
 }
 
-func (aes_ AES) DecryptECBImpl(key []byte, encrypted []byte) (decrypted []byte, err error) {
+func (aes_ AES) AESDecryptECBImpl(key []byte, encrypted []byte) (decrypted []byte, err error) {
 	cipher, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -133,15 +133,15 @@ func (aes_ AES) DecryptECBImpl(key []byte, encrypted []byte) (decrypted []byte, 
 
 // ==========================================CFB====================================
 
-func (aes_ AES) EncryptCFB(key, text string) (encrypted string, err error) {
-	bs, err := aes_.EncryptCFBImpl([]byte(key), []byte(text))
+func (aes_ AES) AESEncryptCFB(key, text string) (encrypted string, err error) {
+	bs, err := aes_.AESEncryptCFBImpl([]byte(key), []byte(text))
 	if err != nil {
 		return "", err
 	}
 	return string(bs), nil
 }
 
-func (aes_ AES) EncryptCFBImpl(key []byte, origData []byte) (encrypted []byte, err error) {
+func (aes_ AES) AESEncryptCFBImpl(key []byte, origData []byte) (encrypted []byte, err error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -156,15 +156,15 @@ func (aes_ AES) EncryptCFBImpl(key []byte, origData []byte) (encrypted []byte, e
 	return encrypted, nil
 }
 
-func (aes_ AES) DecryptCFB(key string, cypher string) (text string, err error) {
-	bs, err := aes_.DecryptCFBImpl([]byte(key), []byte(cypher))
+func (aes_ AES) AESDecryptCFB(key string, cypher string) (text string, err error) {
+	bs, err := aes_.AESDecryptCFBImpl([]byte(key), []byte(cypher))
 	if err != nil {
 		return "", err
 	}
 	return string(bs), nil
 }
 
-func (aes_ AES) DecryptCFBImpl(key []byte, encrypted []byte) (decrypted []byte, err error) {
+func (aes_ AES) AESDecryptCFBImpl(key []byte, encrypted []byte) (decrypted []byte, err error) {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err

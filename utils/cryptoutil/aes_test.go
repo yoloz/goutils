@@ -19,12 +19,12 @@ func TestCBC(t *testing.T) {
 	text := "hello world!"
 	log.Printf("origin:%s", text)
 	aes := AES{}
-	cypherText, err := aes.EncryptCBC(key, text)
+	cypherText, err := aes.AESEncryptCBC(key, text)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("encrypt:%s", cypherText)
-	originText, err := aes.DecryptCBC(key, cypherText)
+	originText, err := aes.AESDecryptCBC(key, cypherText)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,12 +37,12 @@ func TestECB(t *testing.T) {
 	text := "hello world!"
 	log.Printf("origin:%s", text)
 	aes := AES{}
-	cypherText, err := aes.EncryptECB(key, text)
+	cypherText, err := aes.AESEncryptECB(key, text)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("encrypt:%s", cypherText)
-	originText, err := aes.DecryptECB(key, cypherText)
+	originText, err := aes.AESDecryptECB(key, cypherText)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,12 +55,12 @@ func TestCFB(t *testing.T) {
 	text := "hello world!"
 	log.Printf("origin:%s", text)
 	aes := AES{}
-	cypherText, err := aes.EncryptCBC(key, text)
+	cypherText, err := aes.AESEncryptCBC(key, text)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("encrypt:%s", cypherText)
-	originText, err := aes.DecryptCBC(key, cypherText)
+	originText, err := aes.AESDecryptCBC(key, cypherText)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -92,7 +92,7 @@ func TestDecryptECBFromJava(t *testing.T) {
 		if err != nil {
 			panic(err)
 		}
-		decrypted, err := aes.DecryptECBImpl(keys, encrypted)
+		decrypted, err := aes.AESDecryptECBImpl(keys, encrypted)
 		if err != nil {
 			log.Fatal(err)
 		}
