@@ -1,0 +1,15 @@
+{
+    "dbType": "mysql",
+    "host": "192.168.124.230",
+    "port": 3306,
+    "userName": "test",
+    "password": "test",
+    "dbName": "test",
+    "tableName": "city",
+    "columns": ["name","state"],
+    "indexes": ["id"],
+    "qWhere": "",
+    "uWhere":"id=%s",
+    "encKey":"[-19, -59, -124, 8, 95, 71, -126, -84, -33, -18, 72, -93, 66, 102, 52, -21]",
+    "hexCode":true
+}
