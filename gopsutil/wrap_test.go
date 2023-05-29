@@ -41,7 +41,12 @@ func TestProcInfo(t *testing.T) {
 	fmt.Printf("%v\n", m)
 }
 
-func TestProcessInfo(t *testing.T) {
-	m, _ := ProcessInfo(1247)
+func TestProcessByPid(t *testing.T) {
+	m, _ := ProcessByPid(1247)
+	fmt.Printf("%v\n", m)
+}
+
+func TestProcessByCmd(t *testing.T) {
+	m, _ := ProcessByCmd("code")
 	fmt.Printf("%v\n", m)
 }

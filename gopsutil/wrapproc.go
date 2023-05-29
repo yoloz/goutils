@@ -7,6 +7,7 @@ import (
 	"container/list"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/shirou/gopsutil/v3/process"
 )
@@ -117,7 +118,7 @@ func CProcessList() *C.char {
 }
 
 // ProcessInfo process info
-func ProcessInfo(pid int32) (map[string]interface{}, error) {
+func ProcessByPid(pid int32) (map[string]interface{}, error) {
 	proc, err := process.NewProcess(pid)
 	if err != nil {
 		return nil, err
@@ -136,9 +137,50 @@ func ProcessInfo(pid int32) (map[string]interface{}, error) {
 	return m, nil
 }
 
-//export CProcessInfo
-func CProcessInfo(pid int32) *C.char {
-	cards, err := ProcessInfo(pid)
+// ProcessInfo process info
+func ProcessByCmd(line string) (map[string]interface{}, error) {
+	pss, err := process.Processes()
+	if err != nil {
+		return nil, err
+	}
+	m := make(map[string]interface{}, 5)
+	for _, ps := range pss {
+		cmdline, _ := ps.Cmdline()
+		if strings.Contains(cmdline, line) {
+			createtime, _ := ps.CreateTime()
+			cpup, _ := ps.CPUPercent()
+			memp, _ := ps.MemoryPercent()
+			meminfo, _ := ps.MemoryInfo()
+			m["createtime"] = createtime
+			m["cpupercent"] = fmt.Sprintf("%.2f", cpup)
+			m["mempercent"] = fmt.Sprintf("%.2f", memp)
+			m["rss"] = FormatBytes(meminfo.RSS)
+			m["vms"] = FormatBytes(meminfo.VMS)
+			return m, nil
+		}
+	}
+	return m, nil
+}
+
+//export CProcessByCmd
+func CProcessByCmd(cmd string) *C.char {
+	cards, err := ProcessByCmd(cmd)
+	if err != nil {
+		fmt.Println("get process info fail..." + err.Error())
+		return C.CString("{}")
+	}
+	bytes, err := json.Marshal(cards)
+	if err != nil {
+		fmt.Println("marshal process info fail..." + err.Error())
+		return C.CString("{}")
+	}
+	gostr := string(bytes)
+	return C.CString(gostr)
+}
+
+//export CProcessByPid
+func CProcessByPid(pid int32) *C.char {
+	cards, err := ProcessByPid(pid)
 	if err != nil {
 		fmt.Println("get process info fail..." + err.Error())
 		return C.CString("{}")
