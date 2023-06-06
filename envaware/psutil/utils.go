@@ -1,4 +1,4 @@
-package main
+package psutil
 
 import "fmt"
 
@@ -38,7 +38,4 @@ func formatUnits(value uint64, prefix uint64, unit string) string {
 		return fmt.Sprintf("%d %s", value/prefix, unit)
 	}
 	return fmt.Sprintf("%.1f %s", float64(value)/float64(prefix), unit)
-}
-
-func main() {
 }

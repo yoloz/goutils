@@ -1,4 +1,4 @@
-module gopsutil
+module envaware
 
 go 1.20
 
