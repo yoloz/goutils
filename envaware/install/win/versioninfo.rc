@@ -1,0 +1,31 @@
+1 VERSIONINFO
+FILEVERSION     1,0,0,2369
+PRODUCTVERSION  1,0,0,2369
+FILEFLAGSMASK   0X3FL
+FILEFLAGS       0L
+FILEOS          0X40004L
+FILETYPE        0X1
+FILESUBTYPE     0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+		    VALUE "CompanyName", "YunzhiSec"
+            VALUE "FileDescription", "云智信安环境感知"
+            VALUE "FileVersion", "1.0.0.2369"
+            VALUE "InternalName", "envaware"
+            VALUE "LegalCopyright", "Copyright (c) 2023 YunzhiSec"
+            VALUE "OriginalFilename", "EnvAware.EXE"
+            VALUE "ProductName", "YunzhiSec@ EnvAware"
+			VALUE "ProductVersion", "1.0.0.2369"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+            VALUE "Translation", 0x0804, 0x04B0
+    END
+END
+
+
+1 ICON "logo.ico"
