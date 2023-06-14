@@ -2,7 +2,7 @@ package pool
 
 /**
 *
-wp := util.NewPool(worker_num, size).Start()
+wp := pool.NewPool(worker_num, size).Start()
 wg := sync.WaitGroup{}
 for xxxx {   循环列表
 	wg.Add(1)
