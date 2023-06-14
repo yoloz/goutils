@@ -5,13 +5,12 @@ import (
 	"path"
 	"testing"
 
-	"github.com/mitchellh/go-homedir"
+	"github.com/yoloz/goutils/fileutil"
 )
 
 func TestGeneratePlan(t *testing.T) {
-	homedir.DisableCache = false
 	var month = [3]int{1, 2, 3}
-	dir, err := homedir.Dir()
+	dir, err := fileutil.Userhome()
 	if err != nil {
 		log.Fatal(err)
 	}

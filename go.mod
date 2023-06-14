@@ -3,7 +3,6 @@ module github.com/yoloz/goutils
 go 1.18
 
 require (
-	github.com/mitchellh/go-homedir v1.1.0
 	github.com/xuri/excelize/v2 v2.6.0
 	go.uber.org/zap v1.24.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
