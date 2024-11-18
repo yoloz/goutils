@@ -5,12 +5,12 @@ import (
 	"path"
 	"testing"
 
-	"github.com/yoloz/goutils/fileutil"
+	"github.com/yoloz/goutils/pathutil"
 )
 
 func TestGeneratePlan(t *testing.T) {
 	var month = [3]int{1, 2, 3}
-	dir, err := fileutil.Userhome()
+	dir, err := pathutil.Userhome()
 	if err != nil {
 		log.Fatal(err)
 	}
