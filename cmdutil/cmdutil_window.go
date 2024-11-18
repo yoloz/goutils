@@ -1,4 +1,4 @@
-//go:build window
+//go:build windows
 
 package cmdutil
 
