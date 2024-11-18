@@ -6,11 +6,11 @@ import (
 	"os/exec"
 	"syscall"
 
-	"github.com/yoloz/goutils/sysuti"
+	"github.com/yoloz/goutils/sysutil"
 )
 
 func GetCmd(cmdExec string) (*exec.Cmd, error) {
-	switch os := sysuti.GetOSName(); os {
+	switch os := sysutil.GetOSName(); os {
 	case "windows":
 		cmd := exec.Command("cmd.exe")
 		cmd.SysProcAttr = &syscall.SysProcAttr{CmdLine: fmt.Sprintf(`/c %s`, cmdExec), HideWindow: true}

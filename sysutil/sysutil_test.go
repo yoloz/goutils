@@ -1,4 +1,4 @@
-package sysuti
+package sysutil
 
 import (
 	"testing"
