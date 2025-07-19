@@ -1,7 +1,7 @@
 package htputil
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -16,7 +16,7 @@ func ReadForm(r *http.Request) (bool, error) {
 
 func ReadBody(r *http.Request) ([]byte, error) {
 	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		return nil, err
 	}
