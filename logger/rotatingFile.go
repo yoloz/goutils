@@ -13,6 +13,7 @@ type RotatingFileWriter struct {
 	file        *os.File
 	maxSize     int64
 	currentSize int64
+	maxBackups  int
 }
 
 func (w *RotatingFileWriter) openNewFile() error {
@@ -26,10 +27,25 @@ func (w *RotatingFileWriter) openNewFile() error {
 	if w.file != nil {
 		w.file.Close()
 		w.file = nil
-		bakFileName := fmt.Sprintf("%s_bak", w.absfile)
-		err := os.Rename(w.absfile, bakFileName)
-		if err != nil {
-			return err
+		// Remove legacy _bak file
+		bakFile := fmt.Sprintf("%s_bak", w.absfile)
+		os.Remove(bakFile) // ignore error
+		if w.maxBackups > 0 {
+			// Remove the oldest backup if it exists
+			oldest := fmt.Sprintf("%s.%d", w.absfile, w.maxBackups)
+			os.Remove(oldest) // ignore error
+			// Shift backups
+			for i := w.maxBackups - 1; i >= 1; i-- {
+				old := fmt.Sprintf("%s.%d", w.absfile, i)
+				new := fmt.Sprintf("%s.%d", w.absfile, i+1)
+				os.Rename(old, new) // ignore error if old doesn't exist
+			}
+			// Rename current file to backup 1
+			backup1 := fmt.Sprintf("%s.1", w.absfile)
+			os.Rename(w.absfile, backup1) // ignore error if current file doesn't exist
+		} else {
+			// No backups, delete current file
+			os.Remove(w.absfile) // ignore error
 		}
 	}
 	file, err := os.OpenFile(w.absfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
@@ -68,10 +84,18 @@ func (w *RotatingFileWriter) Close() error {
 	return nil
 }
 
-func NewRotatingFileWriter(absfile string, maxSize int64) (*RotatingFileWriter, error) {
+func NewRotatingFileWriter(absfile string, maxSize int64, maxBackups ...int) (*RotatingFileWriter, error) {
+	backups := 1
+	if len(maxBackups) > 0 {
+		backups = maxBackups[0]
+		if backups < 0 {
+			backups = 0
+		}
+	}
 	w := &RotatingFileWriter{
-		absfile: absfile,
-		maxSize: maxSize,
+		absfile:    absfile,
+		maxSize:    maxSize,
+		maxBackups: backups,
 	}
 	err := w.openNewFile()
 	if err != nil {
